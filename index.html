@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1e3c72">
+    <title>Ezan Vakti</title>
+    
+    <!-- Tarayıcı Sekmesi ve Apple Cihazlar İçin Logo -->
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <link rel="apple-touch-icon" href="logo.jpg">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-top">
+                <div class="title-area">
+                    <i class="fa-solid fa-mosque header-icon"></i>
+                    <h1>Ezan Vakitleri</h1>
+                </div>
+                
+                <div class="header-icons">
+                    <button id="theme-toggle" class="theme-btn">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="select-wrapper">
+                <i class="fa-solid fa-location-dot location-icon"></i>
+                <select id="city-select" class="mobile-select"></select>
+                <i class="fa-solid fa-chevron-down select-arrow"></i>
+            </div>
+
+            <p id="current-date-header" class="date-header">Yükleniyor...</p>
+        </header>
+
+        <main class="app-content">
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <p>Vakitler Hesaplanıyor...</p>
+            </div>
+
+            <div id="times-container" class="times-list">
+                <div class="time-row" id="row-fajr">
+                    <div class="time-info">
+                        <div class="icon-box"><i class="fa-solid fa-cloud-moon"></i></div>
+                        <span class="time-name">İmsak</span>
+                    </div>
+                    <div class="time-right">
+                        <span class="time-value" id="fajr">--:--</span>
+                        <button class="prayer-bell-btn" data-time="Fajr"><i class="fa-solid fa-bell"></i></button>
+                    </div>
+                </div>
+
+                <div class="time-row" id="row-sunrise">
+                    <div class="time-info">
+                        <div class="icon-box"><i class="fa-solid fa-sun"></i></div>
+                        <span class="time-name">Güneş</span>
+                    </div>
+                    <div class="time-right">
+                        <span class="time-value" id="sunrise">--:--</span>
+                        <button class="prayer-bell-btn" data-time="Sunrise"><i class="fa-solid fa-bell-slash"></i></button>
+                    </div>
+                </div>
+
+                <div class="time-row" id="row-dhuhr">
+                    <div class="time-info">
+                        <div class="icon-box"><i class="fa-regular fa-sun"></i></div>
+                        <span class="time-name">Öğle</span>
+                    </div>
+                    <div class="time-right">
+                        <span class="time-value" id="dhuhr">--:--</span>
+                        <button class="prayer-bell-btn" data-time="Dhuhr"><i class="fa-solid fa-bell"></i></button>
+                    </div>
+                </div>
+
+                <div class="time-row" id="row-asr">
+                    <div class="time-info">
+                        <div class="icon-box"><i class="fa-solid fa-cloud-sun"></i></div>
+                        <span class="time-name">İkindi</span>
+                    </div>
+                    <div class="time-right">
+                        <span class="time-value" id="asr">--:--</span>
+                        <button class="prayer-bell-btn" data-time="Asr"><i class="fa-solid fa-bell"></i></button>
+                    </div>
+                </div>
+
+                <div class="time-row" id="row-maghrib">
+                    <div class="time-info">
+                        <div class="icon-box"><i class="fa-solid fa-cloud-sun-rain"></i></div>
+                        <span class="time-name">Akşam</span>
+                    </div>
+                    <div class="time-right">
+                        <span class="time-value" id="maghrib">--:--</span>
+                        <button class="prayer-bell-btn" data-time="Maghrib"><i class="fa-solid fa-bell"></i></button>
+                    </div>
+                </div>
+
+                <div class="time-row" id="row-isha">
+                    <div class="time-info">
+                        <div class="icon-box"><i class="fa-solid fa-moon"></i></div>
+                        <span class="time-name">Yatsı</span>
+                    </div>
+                    <div class="time-right">
+                        <span class="time-value" id="isha">--:--</span>
+                        <button class="prayer-bell-btn" data-time="Isha"><i class="fa-solid fa-bell"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="daily-quote-card">
+                <div class="quote-header">
+                    <i class="fa-solid fa-quote-left"></i> Günün Sözü
+                </div>
+                <p id="daily-quote-text"></p>
+            </div>
+
+            <div class="footer-info">
+                <p class="source"><i class="fa-solid fa-circle-check"></i> Kaynak: Diyanet İşleri Başkanlığı</p>
+            </div>
+            
+            <!-- Sadece Ezan Sesi Kaldı -->
+            <audio id="adhan-audio" src="ezan.mp3" preload="none"></audio>
+        </main>
+    </div>
+
+    <!-- Çevrimdışı Çalışma Bağlantısı -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(err => console.log(err));
+            });
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
