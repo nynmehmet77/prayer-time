@@ -6,6 +6,7 @@ const ASSETS = [
     './index.html',
     './style.css',
     './script.js',
+    './ses-dosyasi-adin.mp3', // Ezan ses dosyanın adını buraya yazmalısın
     'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
@@ -15,6 +16,21 @@ self.addEventListener('install', (e) => {
     e.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll(ASSETS);
+        })
+    );
+});
+
+// Aktivasyon Aşaması: Eski Önbellekleri Temizle
+self.addEventListener('activate', (e) => {
+    e.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cache) => {
+                    if (cache !== CACHE_NAME) {
+                        return caches.delete(cache); // Eski cache'i sil
+                    }
+                })
+            );
         })
     );
 });

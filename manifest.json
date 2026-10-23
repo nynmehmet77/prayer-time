@@ -1,16 +1,22 @@
 {
   "name": "Ezan Vakti",
-  "short_name": "Ezan",
+  "short_name": "Ezan Vakti",
+  "description": "Güncel ezan vakitleri, kerahat uyarıları ve otomatik bildirimler.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#1e3c72",
+  "background_color": "#f8fafc",
   "theme_color": "#1e3c72",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "logo.jpg",
       "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
+      "type": "image/jpeg"
     }
   ]
 }

@@ -1,3 +1,7 @@
+if ('mediaSession' in navigator) {
+  navigator.mediaSession.metadata = null;
+}
+
 const cities = [
     "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin", 
     "Aydın", "Balıkesir", "Bartın", "Batman", "Bayburt", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", 
@@ -218,23 +222,30 @@ setInterval(() => {
                 if(adhanAudio) {
                     adhanAudio.play().catch(() => {});
                     
-                    // YENİ EKLENEN KISIM: 20 SANİYE SONRA SESİ OTOMATİK SUSTURUR
+                    // 20 SANİYE SONRA SESİ OTOMATİK SUSTURUR
                     setTimeout(() => {
-                        adhanAudio.pause();
-                        adhanAudio.currentTime = 0; // Başa sarar
-                    }, 20000); // 20000 milisaniye = 20 saniye
-                }
+                        adhanAudio.pause(); 
+                        adhanAudio.currentTime = 0; 
+
+                        let mevcutKaynak = adhanAudio.src;
+                        adhanAudio.src = ''; 
+                        adhanAudio.src = mevcutKaynak; 
+
+                        if ('mediaSession' in navigator) {
+                            navigator.mediaSession.playbackState = 'none';
+                        }
+                    }, 20000); 
                 
-                lastPlayedMinute = currentTimeStr;
-                
-                if ('Notification' in window && Notification.permission === 'granted') {
-                    new Notification(`${playedName} Vakti`, { body: "Namaz vakti girdi.", icon: "logo.png" });
+                    lastPlayedMinute = currentTimeStr;
+                    
+                    if ('Notification' in window && Notification.permission === 'granted') {
+                        new Notification(`${playedName} Vakti`, { body: "Namaz vakti girdi.", icon: "logo.png" });
+                    }
                 }
             }
         }
     }
-}, 10000); 
-
+}, 10000);
 // --- GÜNÜN SÖZÜ ---
 const dailyQuotes = [
 "Ameller niyetlere göredir. Herkes sadece niyetinin karşılığını alır. (Buhârî)",
