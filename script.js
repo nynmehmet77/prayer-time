@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         themeIcon.classList.replace('fa-moon', 'fa-sun');
     }
 
-    themeBtn.addEventListener('click', () => {
+themeBtn.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
         if (document.body.classList.contains('dark-theme')) {
             themeIcon.classList.replace('fa-moon', 'fa-sun');
@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const adhanAudio = document.getElementById('adhan-audio');
 
+    // ZİL BUTONLARI DÖNGÜSÜ BAŞLANGICI
     document.querySelectorAll('.prayer-bell-btn').forEach(btn => {
         const timeKey = btn.getAttribute('data-time');
         const icon = btn.querySelector('i');
@@ -73,7 +74,20 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
             
-            if (adhanAudio) adhanAudio.play().then(() => { adhanAudio.pause(); adhanAudio.currentTime = 0; }).catch(() => {});
+            if (adhanAudio) {
+                adhanAudio.play().then(() => { 
+                    adhanAudio.pause(); 
+                    adhanAudio.currentTime = 0; 
+                    
+                    // YENİ: Çana basıldığında Chrome'da çıkan o oynatıcıyı anında yok eder
+                    let mevcutKaynak = adhanAudio.src;
+                    adhanAudio.src = ''; 
+                    adhanAudio.src = mevcutKaynak; 
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.playbackState = 'none';
+                    }
+                }).catch(() => {});
+            }
 
             prayerAudioPrefs[timeKey] = !prayerAudioPrefs[timeKey];
             localStorage.setItem('prayerAudioPrefs', JSON.stringify(prayerAudioPrefs));
@@ -86,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon.classList.replace('fa-bell', 'fa-bell-slash');
             }
         });
-    });
+    }); // <-- EKSİK OLAN KAPANIŞ BURASIYDI
 
     cities.forEach(city => {
         const option = document.createElement('option');
